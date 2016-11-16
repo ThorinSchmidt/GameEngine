@@ -1,57 +1,9 @@
-# GameEngine.py
+# Character.py
 # Thorin Schmidt
-# 11/15/2016
+# 11/16/2016
 
-''' Module that contains classes and functions to run a game '''
+''' Module that contains our game's Character base class '''
 from random import randint
-
-def combat(one, two):
-    ''' runs combat bewtween two Characters, one and two'''
-
-    done = False
-    while not done:
-        # User Actions
-        choice = input("""
-                  YOU ARE IN COMBAT!
-                  What do you want to do?
-                  You can:
-                     A)ttack
-                     H)eal
-                     F)lee
-                Your Choice: [A/h/f]: """)
-        if choice.lower() == "f":
-            if one.flee():
-                done = True
-                print(one.name, "Flees in terror!")
-            else:
-                print(one.name, "cannot flee!")
-        elif choice.lower() == "h":
-            one.heal()
-        else:
-            one.attack(two)
-
-        #Computer AI
-        twoChoice = "a"
-        if two.health < two.maxHealth * .30:
-            twoChoice = "h"
-        if two.health < two.maxHealth * .10:
-            twoChoice = "f"
-            
-        if twoChoice == "f":
-            if two.flee():
-                done = True
-                print(two.name, "Flees in terror!")
-            else:
-                print(two.name, "cannot flee!")
-        elif twoChoice == "h":
-            two.heal()
-        else:
-            two.attack(one)
-
-        if one.health <= 0 or two.health <= 0:
-            done = True
- 
-
 
 class Character(object):
     ''' Base Character Class '''
@@ -69,9 +21,9 @@ class Character(object):
         self.strength = strength
         self.intelligence = intelligence
         self.dexterity = dexterity
-        self.inventory = inventory[:]
-        #for item in inventory:
-        #    self.inventory.append(item)
+        self.inventory = []
+        for item in inventory:
+            self.inventory.append(item)
         
 
     def heal(self):
@@ -114,9 +66,7 @@ class Character(object):
 
 if __name__ == "__main__":
     hero = Character()
-    orc = Character(name = "Dorque da Orc")
-    
-    #combat(hero, orc)
+
     
 
 
