@@ -31,14 +31,19 @@ def combat(one, two):
             one.attack(two)
 
         #Computer AI
-        twoChoice = randint(1,3)
-        if twoChoice == 1:
+        twoChoice = "a"
+        if two.health < two.maxHealth * .30:
+            twoChoice = "h"
+        if two.health < two.maxHealth * .10:
+            twoChoice = "f"
+            
+        if twoChoice == "f":
             if two.flee():
                 done = True
                 print(two.name, "Flees in terror!")
             else:
                 print(two.name, "cannot flee!")
-        elif twoChoice == 2:
+        elif twoChoice == "h":
             two.heal()
         else:
             two.attack(one)
@@ -50,26 +55,45 @@ def combat(one, two):
 
 class Character(object):
     ''' Base Character Class '''
-    def __init__(self, name = "Average Joe", maxHealth = 100):
+    def __init__(self, name = "Average Joe", maxHealth = 100,
+                 speed = 25, stamina = 25, strength = 10,
+                 intelligence = 10, dexterity = 10,
+                 inventory = [["potion", 2],["Leather", 1]]):
         ''' All values represent the average score '''
         self.name = name
         self.maxHealth = maxHealth
         self.health = maxHealth
-        self.speed = 25
+        self.speed = speed
         self.hunger = 100 # 100 = Full, 0 = starving
-        self.stamina = 25
-        self.strength = 10
-        self.intelligence = 10
-        self.dexterity = 10
+        self.stamina = stamina
+        self.strength = strength
+        self.intelligence = intelligence
+        self.dexterity = dexterity
         self.inventory = []
+        for item in inventory:
+            self.inventory.append(item)
+        
 
     def heal(self):
         ''' randomly heal 1d8+1 points'''
-        heal = randint(2,9)
-        self.health += heal
-        print(self.name, "heals for", heal, "points.")
-        if self.health > self.maxHealth:
-            self.health = self.maxHealth
+        #first check if there is a potion in inventory
+        healed = False
+        for item in self.inventory:
+            if item[0] == "potion":
+                print(self.name, "drinks a potion.")
+                heal = randint(2,9)
+                self.health += heal
+                print(self.name, "heals for", heal, "points.")
+                if self.health > self.maxHealth:
+                    self.health = self.maxHealth
+                item[1] -= 1
+                if item[1] == 0:
+                    self.inventory.remove(item)
+                healed = True
+        if not healed:
+            print(self.name, "Has no potions!")
+            print(self.inventory)
+                
 
     def flee(self):
         chance = randint(1,100)
@@ -87,31 +111,6 @@ class Character(object):
             print("and does", damage, "damage.")
         else:
             print(self.name, "misses", enemy.name+".")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-        
 
 if __name__ == "__main__":
     hero = Character()
