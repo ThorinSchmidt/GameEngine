@@ -48,10 +48,12 @@ class Monster(Character):
             return "AI_error"
 
 class Orc(Monster):
-    ''' generic Orc class '''
+    ''' generic Orc class
+
+        this class '''
     def __init__(self,
                  name = "Dorque da Orc",
-                 maxHealth = 100,
+                 maxHealth = 10,
                  speed = 25,
                  stamina = 25,
                  strength = 8,
@@ -65,6 +67,14 @@ class Orc(Monster):
         super(Orc, self).__init__(name, maxHealth, speed, stamina, strength,
                                   intelligence, dexterity, numberOfPotions,
                                   inventory, aggression, awareness, fear)
+
+    def get_damage(self, damage):
+        damage -= 5  #damage reduction example, also, OVERLOADING
+        if damage < 0:
+            damage = 0
+
+        self.health -= damage
+            
 
 
 def random_monster():

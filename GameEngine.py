@@ -48,12 +48,12 @@ def combat(one, two):
         if oneInit >= twoInit:
             combatIsOver = take_action(one, two, one.combat_choice())
             if combatIsOver:
-                continue
+                continue # go directly to beginning of loop
             combatIsOver = take_action(two, one, two.combat_choice())
         else:
             combatIsOver = take_action(two, one, two.combat_choice())
             if combatIsOver:
-                continue
+                continue # go directly to beginning of loop
             combatIsOver = take_action(one, two, one.combat_choice())
 
 

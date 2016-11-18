@@ -8,14 +8,14 @@
     added a combat_choice method for use by player
     11/17/2016
     changed the Character class. weapon, armor and potion attributes.
-    These are all objects imnported from the new items module. These
+    These are all objects imported from the new items module. These
     attributes are all implemented as objects.  Potions are implemented
     additionally as a list of objects.  This leaves inventory currently
     empty. also, a new constructor parameter has been added:
         numberOfPotions = 2. this replaces the old inventory item
         ["potion", 2]...
     Additionally, a number of properties were added to the base class:
-        strBonus, dexBonus, intBonus, potionCount, potionList, and defense.
+        strBonus, dexBonus, intBonus, potionCount, potionList, and AC.
         see the property docstrings for more information
 
 '''
@@ -56,12 +56,12 @@ class Character(object):
     @property
     def strBonus(self):
         ''' calculates d20 OGL bonus for strength'''
-        return (self.dexterity//2) - 5
+        return (self.strength//2) - 5
 
     @property
     def dexBonus(self):
         ''' calculates d20 OGL bonus for dexterity'''
-        return (self.strength//2) - 5
+        return (self.dexterity//2) - 5
 
     @property
     def intBonus(self):
@@ -70,7 +70,7 @@ class Character(object):
 
     @property
     def potionCount(self):
-        ''' counts your potions... :/'''
+        ''' counts your potions... :/ <- david, that is an emoji'''
         return len(self.potions)
 
     @property
@@ -86,6 +86,10 @@ class Character(object):
     def AC(self):
         ''' calculates the overall d20 OGL Armor Class (AC) value'''
         return 10 + self.dexBonus + self.armor.defense
+
+    def get_damaged(self, damage):
+        ''' inflicts damage from an outside source '''
+        self.health -= damage
 
     def heal(self):
         ''' randomly heal 1d8+1 points
@@ -158,7 +162,7 @@ class Character(object):
         attack = randint(1,20) + self.strBonus + self.weapon.attack
         if attack >= enemy.AC:
             damage = self.weapon.damage + self.strBonus
-            enemy.health -= damage
+            enemy.get_damaged(damage)
             success = True
             message = self.name + " hits " + enemy.name + " and does " +\
                       str(damage) + " damage."
