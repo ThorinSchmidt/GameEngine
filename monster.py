@@ -13,16 +13,20 @@ class Monster(Character):
                  maxHealth = 10,
                  speed = 25,
                  stamina = 25,
-                 strength = 10,
-                 intelligence = 10,
-                 dexterity = 10,
+                 strength = 8,
+                 dexterity = 8,
+                 constitution = 10,
+                 intelligence = 8,
+                 wisdom = 10,
+                 charisma = 10,
                  numberOfPotions = 2,
                  inventory = [],
                  aggression = 50,
                  awareness = 50,
                  fear = 50):
         super(Monster, self).__init__(name, maxHealth, speed, stamina,
-                                      strength, intelligence, dexterity,
+                                      strength, dexterity, constitution,
+                                      intelligence, wisdom, charisma,
                                       numberOfPotions, inventory)
         self.aggression = aggression
         self.awareness = awareness
@@ -51,31 +55,26 @@ class Orc(Monster):
     ''' generic Orc class
 
         this class '''
-    def __init__(self,
-                 name = "Dorque da Orc",
-                 maxHealth = 10,
-                 speed = 25,
-                 stamina = 25,
-                 strength = 8,
-                 intelligence = 8,
-                 dexterity = 8,
-                 numberOfPotions = 2,
-                 inventory = [],
-                 aggression = 80,
-                 awareness = 30,
-                 fear = 20):
-        super(Orc, self).__init__(name, maxHealth, speed, stamina, strength,
-                                  intelligence, dexterity, numberOfPotions,
+    def __init__(self, name = "Dorque da Orc"):
+        orcName = name
+        maxHealth = randint(1,8)
+        speed = 25
+        stamina = 25
+        strength = randint(8,10)
+        dexterity = randint(10,12)
+        constitution = 10
+        intelligence = 8
+        wisdom = 10
+        charisma = 10
+        numberOfPotions = 2
+        inventory = []
+        aggression = 80
+        awareness = 30
+        fear = 20
+        super(Orc, self).__init__(orcName, maxHealth, speed, stamina, strength,
+                                  dexterity, constitution, intelligence,
+                                  wisdom, charisma, numberOfPotions,
                                   inventory, aggression, awareness, fear)
-
-    def get_damage(self, damage):
-        damage -= 5  #damage reduction example, also, OVERLOADING
-        if damage < 0:
-            damage = 0
-
-        self.health -= damage
-            
-
 
 def random_monster():
     '''generate a monster at random
@@ -93,9 +92,9 @@ def random_monster():
 
 if __name__ == "__main__":
 
-    Grr = Monster(name = "Freddy")
-    Randy = random_monster()
-    print(Randy.name)
+    Grr = Orc(name = "Freddy")
+    #Randy = random_monster()
+    #print(Randy.name)
 
 
     

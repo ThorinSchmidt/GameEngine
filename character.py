@@ -17,6 +17,10 @@
     Additionally, a number of properties were added to the base class:
         strBonus, dexBonus, intBonus, potionCount, potionList, and AC.
         see the property docstrings for more information
+    11/21/2016
+    added constitution, wisdom, and charisma attributes. modified attack
+    to do a minimum of 1 damage, as well as added the possibility of a
+    critical fumble (roll of 1).
 
 '''
 from random import randint
@@ -34,8 +38,7 @@ class Character(object):
                  constitution = 10,
                  intelligence = 10,
                  wisdom = 10,
-                 charaisma = 10,
-                 dexterity = 10,
+                 charisma = 10,
                  numberOfPotions = 2,
                  inventory = []):
         ''' All values represent the average score '''
@@ -46,8 +49,11 @@ class Character(object):
         self.hunger = 100 # 100 = Full, 0 = starving
         self.stamina = stamina
         self.strength = strength
-        self.intelligence = intelligence
         self.dexterity = dexterity
+        self.constitution = constitution
+        self.intelligence = intelligence
+        self.wisdom = wisdom
+        self.charisma = charisma
         self.inventory = []
         for item in inventory:
             self.inventory.append(item[:])
@@ -77,7 +83,7 @@ class Character(object):
         ''' calculates d20 OGL bonus for intelligence'''
         return (self.intelligence//2) - 5
 
-        @property
+    @property
     def wisBonus(self):
         ''' calculates d20 OGL bonus for dexterity'''
         return (self.wisdom//2) - 5
