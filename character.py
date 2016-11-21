@@ -30,7 +30,11 @@ class Character(object):
                  speed = 25,
                  stamina = 25,
                  strength = 10,
+                 dexterity = 10,
+                 constitution = 10,
                  intelligence = 10,
+                 wisdom = 10,
+                 charaisma = 10,
                  dexterity = 10,
                  numberOfPotions = 2,
                  inventory = []):
@@ -64,9 +68,25 @@ class Character(object):
         return (self.dexterity//2) - 5
 
     @property
+    def conBonus(self):
+        ''' calculates d20 OGL bonus for dexterity'''
+        return (self.constitution//2) - 5
+
+    @property
     def intBonus(self):
         ''' calculates d20 OGL bonus for intelligence'''
         return (self.intelligence//2) - 5
+
+        @property
+    def wisBonus(self):
+        ''' calculates d20 OGL bonus for dexterity'''
+        return (self.wisdom//2) - 5
+
+    @property
+    def chaBonus(self):
+        ''' calculates d20 OGL bonus for dexterity'''
+        return (self.charisma//2) - 5
+
 
     @property
     def potionCount(self):
@@ -158,16 +178,23 @@ class Character(object):
 
         success = False
         message = ""
+        roll = randint(1,20)
+        if roll == 1:
+            success = False
+            message = self.name + "fumbles their attack!"
 
-        attack = randint(1,20) + self.strBonus + self.weapon.attack
-        if attack >= enemy.AC:
-            damage = self.weapon.damage + self.strBonus
-            enemy.get_damaged(damage)
-            success = True
-            message = self.name + " hits " + enemy.name + " and does " +\
-                      str(damage) + " damage."
         else:
-            message = self.name + " misses " + enemy.name + "."
+            attack = roll + self.strBonus + self.weapon.attack
+            if attack >= enemy.AC:
+                damage = self.weapon.damage + self.strBonus
+                if damage < 1:
+                    damage = 1
+                enemy.get_damaged(damage)
+                success = True
+                message = self.name + " hits " + enemy.name + " and does " +\
+                          str(damage) + " damage."
+            else:
+                message = self.name + " misses " + enemy.name + "."
 
         return success, message
 
