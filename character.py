@@ -216,6 +216,21 @@ class Character(object):
                    Your Choice [A/h/f]: """)
         return choice
 
+    def __str__(self):
+        info = "NAME:       " + self.name + "\n" +\
+               "-----------------------------------\n" +\
+               "|STR| "+str(self.strength)+"\t"+str(self.strBonus)+"\n"+\
+               "|DEX| "+str(self.dexterity)+"\t"+str(self.dexBonus)+"\n"+\
+               "|CON| "+str(self.constitution)+"\t"+str(self.conBonus)+"\n"+\
+               "|INT| "+str(self.intelligence)+"\t"+str(self.intBonus)+"\n"+\
+               "|WIS| "+str(self.wisdom)+"\t"+str(self.wisBonus)+"\n"+\
+               "|CHA| "+str(self.charisma)+"\t"+str(self.chaBonus)+"\n"+\
+               "-----------------------------------\n" +\
+               "Potions: "+self.potionList+"\n"+\
+               "AC:      "+str(self.AC)+"\n"+\
+               "-----------------------------------\n"
+        return info
+    
 if __name__ == "__main__":
     hero = Character(name = "Mr. Peebles")
     orc = Character(name = "Magilla")
@@ -224,7 +239,8 @@ if __name__ == "__main__":
     hero.heal()
     print(hero.potionList)
     print(hero.attack(orc))
-    
+    print(hero)
+    print(orc)
 
     
 
