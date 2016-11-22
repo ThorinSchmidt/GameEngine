@@ -5,9 +5,9 @@
 ''' Module that contains our game's Character base class
     CHANGELOG:
     11/17/2016
-    added a combat_choice method for use by player
+      added a combat_choice method for use by player
     11/17/2016
-    changed the Character class. weapon, armor and potion attributes.
+      changed the Character class. weapon, armor and potion attributes.
     These are all objects imported from the new items module. These
     attributes are all implemented as objects.  Potions are implemented
     additionally as a list of objects.  This leaves inventory currently
@@ -18,9 +18,12 @@
         strBonus, dexBonus, intBonus, potionCount, potionList, and AC.
         see the property docstrings for more information
     11/21/2016
-    added constitution, wisdom, and charisma attributes. modified attack
+      added constitution, wisdom, and charisma attributes. modified attack
     to do a minimum of 1 damage, as well as added the possibility of a
     critical fumble (roll of 1).
+    11/21/2016
+      added __str__ method to allow easy printing.
+    
 
 '''
 from random import randint
@@ -40,7 +43,9 @@ class Character(object):
                  wisdom = 10,
                  charisma = 10,
                  numberOfPotions = 2,
-                 inventory = []):
+                 inventory = [],
+                 weapon = "",
+                 armor = ""):
         ''' All values represent the average score '''
         self.name = name
         self.maxHealth = maxHealth
@@ -60,8 +65,14 @@ class Character(object):
         self.potions = []
         for i in range(numberOfPotions):
             self.potions.append(Potion())
-        self.weapon = Weapon()
-        self.armor = Armor()
+        if weapon == "":
+            self.weapon = Weapon()
+        else:
+            self.weapon = weapon
+        if armor == "":
+            self.armor = Armor()
+        else:
+            self.armor = armor
 
     @property
     def strBonus(self):

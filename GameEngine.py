@@ -6,6 +6,7 @@
 from random import randint
 from character import *
 from monster import *
+from items import *
 
 def combat(one, two):
     ''' runs combat between two Characters, named one and two'''
@@ -69,7 +70,7 @@ def create_player():
                 moderate satisfaction for the user.
             hardcore - results are generated randomly using the 3d6 method, in
                 standard stat block sequence: (str, dex, con, int, wis, cha).
-                if none of the stats are over 13, then the entire set is re-
+                if none of the stats are over 12, then the entire set is re-
                 rolled until it does. The user has no control over ability
                 scores. This method is the easiest, but usually has the least
                 satisfaction for the user.
@@ -83,7 +84,41 @@ def create_player():
         return Character()
 
     def hardcore():
-        return Character()
+        ''' use 3d6, in order of stats, no rerolls unless all under 13
+
+            hardcore - results are generated randomly using the 3d6 method, in
+                standard stat block sequence: (str, dex, con, int, wis, cha).
+                if none of the stats are over 12, then the entire set is re-
+                rolled until it does. The user has no control over ability
+                scores. This method is the easiest, but usually has the least
+                satisfaction for the user.'''
+
+        valid = False
+        while not valid:
+
+            gStrength = randint(3,18)
+            gDexterity = randint(3,18)
+            gConstitution = randint(3,18)
+            gIntelligence = randint(3,18)
+            gWisdom = randint(3,18)
+            gCharisma = randint(3,18)
+            if gStrength > 11 or gDexterity > 11 or\
+               gConstitution > 11 or gIntelligence > 11 or\
+               gWisdom > 11 or gCharisma > 11:
+                valid = True
+        gName = input("What is your character's name?: ")
+        gPotionCount = 0
+        gWeapon = Weapon(name = "Stick", base = 3, bonus = 0)
+        gArmor = Armor(name = "Loincloth", base = 0, bonus = 0)
+        gHealth = randint(1,8)
+        if gConstitution > 12:
+            gHealth += 1
+        
+        return Character(name = gName, strength = gStrength,
+                         dexterity = gDexterity, constitution = gConstitution,
+                         intelligence = gIntelligence, wisdom = gWisdom,
+                         charisma = gCharisma, numberOfPotions = gPotionCount,
+                         weapon = gWeapon, armor = gArmor, maxHealth = gHealth)
 
     def four_d_six():
         return Character()
@@ -94,7 +129,7 @@ def create_player():
         valid = False
         while not valid:
             choice = input('''
-                             Character Creation Menu
+                             Player Creation Menu
                             -------------------------
                                1) Hardcore
                                2) Simple
@@ -132,9 +167,10 @@ def create_player():
 
 if __name__ == "__main__":
     hero = create_player()
+    print(hero)
     #hero = Character()
-    #orc = Monster(name = "Dorque da Orc")
+    orc = Monster(name = "Dorque da Orc")
 
-    #combat(hero, orc)
+    combat(hero, orc)
 
     
